@@ -4,8 +4,17 @@ import { useDispatch } from "react-redux";
 import { submitIdea } from "../../redux/idea/actions";
 import { Navigate, useNavigate } from "react-router-dom";
 import { DefaultEditor } from "react-simple-wysiwyg";
+import Select, { components, ControlProps } from 'react-select';
+import { Radio } from "@material-tailwind/react";
+import { toast } from "react-toastify"
 
 interface ICreateIdeaProps {}
+
+const categories = [
+  { id: 0, label: "Development" }, 
+  { id: 1, label: "Marketing" }, 
+  { id: 2, label: "Improvement" }, 
+]
 
 export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
   const navigate = useNavigate();
@@ -13,7 +22,9 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(`<h1><b>Title</b>:&nbsp;</h1><div><br></div><h1><b>What</b>:</h1><p>&nbsp;</p><h3><b>Who</b>:</h3>`);
+  const [category, setCategory] = useState(0);
   const [loading, setLoading] = useState(false);
+
   const onTitleChange = (e: any) => {
     setTitle(e.target.value);
   };
@@ -22,8 +33,13 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
     setContent(e.target.value);
   };
   const onSubmit = async () => {
+    if (title == "" || content == "") {
+      toast.error("Title or Content is empty!!!")
+      return;
+    }
     setLoading(true);
-    const result: any = await dispatch(submitIdea({ title, content }));
+    
+    const result: any = await dispatch(submitIdea({ title, content, category }));
     console.log(result);
     setLoading(false);
     if (result) {
@@ -33,7 +49,7 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
   };
   return (
     <div className="hero">
-      <div className="hero-content xl:w-2/5 md:w-3/5 sm:w-full">
+      <div className="hero-content w-[100%]">
         <div className="card flex-shrink-0 w-full shadow-2xl bg-base-100">
           <div className="card-body">
             <div className="form-control">
@@ -59,11 +75,24 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
                 onChange={onContentChange}
               />
             </div>
+            <div className="flex justify-around">
+              { categories && categories.map(item => (
+                <Radio id="html" name="type" label={item.label} className="w-[100%]" />
+              )) }
+            </div>
+            {/* <div className="">
+              <select className="form-control">
+                { categories && categories.map(item => (
+                  <option key={item.id}>{item.label}</option>
+                )) }
+              </select>
+            </div> */}
             <div className="form-control mt-6">
               <button
-                className={`btn btn-primary ${loading ? "loading" : ""}`}
+                className={`btn btn-primary text-lg ${loading ? "loading" : ""}`}
                 onClick={() => onSubmit()}
               >
+                <img src="/icons/paper-aeroplane.png" width={25} className="mr-2" />
                 Submit Idea
               </button>
             </div>

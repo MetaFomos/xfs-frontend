@@ -97,21 +97,7 @@ export const Header: React.FC<IHeaderProps> = () => {
             {isAuthenticated && (
               <>
                 <li>
-                  <Link to="/completed">Completed</Link>
-                </li>
-                <li>
-                  <Link to="/inprogress">In progress</Link>
-                </li>
-                <li>
-                  <Link to="/fundrequired">Fund Required</Link>
-                </li>
-                {role === "1" && (
-                  <li>
-                    <Link to="/proposed">Proposed</Link>
-                  </li>
-                )}
-                <li>
-                  <Link to="/approved">Approved</Link>
+                  <Link to="/createidea">Create Idea</Link>
                 </li>
                 {role === "1" && (
                   <li>
@@ -119,7 +105,21 @@ export const Header: React.FC<IHeaderProps> = () => {
                   </li>
                 )}
                 <li>
-                  <Link to="/createidea">Create Idea</Link>
+                  <Link to="/approved">Approved</Link>
+                </li>
+                {role === "1" && (
+                  <li>
+                    <Link to="/proposed">Proposed</Link>
+                  </li>
+                )}
+                <li>
+                  <Link to="/fundrequired">Fund Required</Link>
+                </li>
+                <li>
+                  <Link to="/inprogress">In progress</Link>
+                </li>
+                <li>
+                  <Link to="/completed">Completed</Link>
                 </li>
               </>
             )}
