@@ -8,12 +8,23 @@ import { CustomLoader } from '../../components/CustomLoader'
 
 interface IPendingIdeaProps {}
 
+const categories = [
+    { id: 0, label: "Development" }, 
+    { id: 1, label: "Marketing" }, 
+    { id: 2, label: "Improvement" }, 
+  ]
+
 export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
     const columns = [
         {
-            name: 'Posted Name',
+            name: 'Posted By',
             selector: (row: any) => row.user.name,
             sortable: true,
+        },
+        {
+            name: 'Type', 
+            selector: (row: any) => categories[row.category].label, 
+            sortable: true
         },
         {
             name: 'Github',
@@ -114,7 +125,7 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
 
     return (
         <div className="hero">
-            <div className="hero-content xl:w-4/5 md:w-4/5 sm:w-full">
+            <div className="hero-content w-full">
                 <div className="card flex-shrink-0 w-full shadow-2xl bg-base-100">
                     <div className="card-body">
                         <DataTable

@@ -29,7 +29,6 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
     setTitle(e.target.value);
   };
   const onContentChange = (e: any) => {
-    console.log(e.target.value);
     setContent(e.target.value);
   };
   const onSubmit = async () => {
@@ -40,10 +39,8 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
     setLoading(true);
     
     const result: any = await dispatch(submitIdea({ title, content, category }));
-    console.log(result);
     setLoading(false);
     if (result) {
-      console.log("here");
       navigate("/dashboard");
     }
   };
@@ -77,7 +74,11 @@ export const CreateIdea: React.FC<ICreateIdeaProps> = () => {
             </div>
             <div className="flex justify-around">
               { categories && categories.map(item => (
-                <Radio id="html" name="type" label={item.label} className="w-[100%]" />
+                <Radio name="type" label={item.label} className="w-[100%]" checked={category == item.id}
+                  onChange={(e) => {
+                    setCategory(item.id);
+                  }}
+                />
               )) }
             </div>
             {/* <div className="">
