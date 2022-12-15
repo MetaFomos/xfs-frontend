@@ -94,6 +94,8 @@ export const approveIdea = (formData: any) => async (dispatch: any) => {
   }
 }
 
+
+
 // Proposal idea
 export const proposalIdea = (formData: any) => async (dispatch: any) => {
   try {

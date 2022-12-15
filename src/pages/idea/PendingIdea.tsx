@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIdeas, approveIdea } from '../../redux/idea/actions'
 import parser from 'html-react-parser'
 import { CustomLoader } from '../../components/CustomLoader'
+import { toast } from 'react-toastify'
 
 interface IPendingIdeaProps {}
 
@@ -20,16 +21,19 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
             name: 'Posted By',
             selector: (row: any) => row.user.name,
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Type', 
             selector: (row: any) => categories[row.category].label, 
-            sortable: true
+            sortable: true, 
+            width: "10%"
         },
         {
             name: 'Github',
             selector: (row: any) => row.user.github,
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Title',
@@ -40,17 +44,19 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
             name: 'Content',
             selector: (row: any) => parser(row.content.slice(0, 20).concat('...')),
             sortable: true,
+            width: "10%"
         },
         {
             name: 'Action',
             button: true,
             cell: (row: any) => (
                 <div className='flex'>
-                    <button className='btn btn-info btn-xs mr-1' onClick={() => onMoreBtn(row)}>More</button>
-                    <button className='btn btn-primary btn-xs' onClick={() => onApproveBtn(row._id)}>Approve</button>
+                    <span className='btn btn-info btn-xs mr-1' onClick={() => onMoreBtn(row)}>More</span>
+                    <span className='btn btn-primary btn-xs mr-1' onClick={() => onApproveBtn(row._id)}>Approve</span>
+                    <span className='btn btn-error btn-xs' onClick={() => onCancelBtn(row._id)}>Cancel</span>
                 </div>
             ),
-            width: '150px'
+            width: '20%'
         },
     ];
 
@@ -106,6 +112,9 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
             ideaID
         });
         approveLabelRef.current?.click()
+    }
+    const onCancelBtn = (ideaID: string) => {
+        
     }
     const onChange = (e: any) => {
         setApproveData({ ...approveData, [e.target.name]: e.target.value })
