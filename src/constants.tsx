@@ -10,4 +10,5 @@ export enum ERoute {
     FUNDREQUIRED = '/fundrequired',
     INPROGRESS = '/inprogress',
     COMPLETED = '/completed',
+    PROFILE = '/profile',
 }

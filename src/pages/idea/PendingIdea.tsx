@@ -46,8 +46,8 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
             button: true,
             cell: (row: any) => (
                 <div className='flex'>
-                    <button className='btn btn-xs mr-1' onClick={() => onMoreBtn(row)}>More</button>
-                    <button className='btn btn-xs' onClick={() => onApproveBtn(row._id)}>Approve</button>
+                    <button className='btn btn-info btn-xs mr-1' onClick={() => onMoreBtn(row)}>More</button>
+                    <button className='btn btn-primary btn-xs' onClick={() => onApproveBtn(row._id)}>Approve</button>
                 </div>
             ),
             width: '150px'

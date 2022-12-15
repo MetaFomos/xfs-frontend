@@ -14,6 +14,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { SignIn } from './pages/auth/SignIn';
 import { SignUp } from './pages/auth/SignUp';
+import { Profile } from './pages/auth/Profile'
 import { CreateIdea } from './pages/idea/CreateIdea'
 import { PendingIdea } from './pages/idea/PendingIdea'
 import { ApprovedIdea } from './pages/idea/ApprovedIdea'
@@ -55,7 +56,8 @@ export const App:React.FC<IAppProps> = () => {
           <Route path={ERoute.COMPLETED} element={<PrivateRoute component={CompletedIdea} />}></Route>
           <Route path={ERoute.SIGNIN} element={<SignIn />}></Route>
           <Route path={ERoute.SIGNUP} element={<SignUp />}></Route>
-          {/* <Route path='*' element={<NotFound />} /> */}
+          <Route path={ERoute.PROFILE} element={<PrivateRoute component={Profile} />}></Route>
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
       {/* <Footer /> */}

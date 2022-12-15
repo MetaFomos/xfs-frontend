@@ -88,8 +88,8 @@ export const Header: React.FC<IHeaderProps> = () => {
                         </li> */}
             </ul>
           </div>
-          <Link to="/dashboard" className="btn btn-ghost normal-case text-xl">
-            X Funding System
+          <Link to="/dashboard" className="btn btn-ghost normal-case text-xl bold">
+            XFS : XDAG Funding System
           </Link>
         </div>
         <div className="w-[60%] hidden md:flex justify-around">
@@ -150,9 +150,16 @@ export const Header: React.FC<IHeaderProps> = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               {isAuthenticated ? (
-                <li>
-                  <span onClick={() => onLogout()}>Logout</span>
-                </li>
+                <>
+                  <li>
+                    <Link to={"/profile"}>
+                      <span>Profile</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <span onClick={() => onLogout()}>Logout</span>
+                  </li>
+                </>
               ) : (
                 <>
                   <li>
