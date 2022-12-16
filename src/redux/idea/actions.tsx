@@ -94,7 +94,40 @@ export const approveIdea = (formData: any) => async (dispatch: any) => {
   }
 }
 
-
+// Reject idea
+export const rejectIdea = (formData: any) => async (dispatch: any) => {
+  try {
+    const res = await api.post('/idea/rejectIdea', formData);
+    dispatch({
+      type: GET_PENDING_IDEAS,
+      payload: res.data
+    });
+    toast.success('Success', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } catch (err: any) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error: any) => {
+        toast.error(error.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      });
+    }
+  }
+}
 
 // Proposal idea
 export const proposalIdea = (formData: any) => async (dispatch: any) => {

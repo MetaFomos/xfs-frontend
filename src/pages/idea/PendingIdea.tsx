@@ -2,18 +2,13 @@ import React, { useEffect, useState, useRef } from 'react'
 import DataTable from 'react-data-table-component'
 import { Dispatch } from 'redux'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIdeas, approveIdea } from '../../redux/idea/actions'
+import { getIdeas, approveIdea, rejectIdea } from '../../redux/idea/actions'
 import parser from 'html-react-parser'
 import { CustomLoader } from '../../components/CustomLoader'
 import { toast } from 'react-toastify'
+import { categories } from '../../constants'
 
 interface IPendingIdeaProps {}
-
-const categories = [
-    { id: 0, label: "Development" }, 
-    { id: 1, label: "Marketing" }, 
-    { id: 2, label: "Improvement" }, 
-  ]
 
 export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
     const columns = [
@@ -44,7 +39,7 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
             name: 'Content',
             selector: (row: any) => parser(row.content.slice(0, 20).concat('...')),
             sortable: true,
-            width: "10%"
+            width: "15%"
         },
         {
             name: 'Action',
@@ -64,6 +59,7 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
     const ideas = useSelector((state: any) => state.idea.pending_ideas)
     const moreLabelRef = useRef<HTMLLabelElement>(null)
     const approveLabelRef = useRef<HTMLLabelElement>(null)
+    const cancelRabelRef = useRef<HTMLLabelElement>(null)
     const [loading, setLoading] = useState(false)
     const [pending, setPending] = useState(true)
     const [formData, setFormData] = useState({
@@ -82,6 +78,7 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
         budget: '',
         ideaID: ''
     })
+    const [cancelIdeaId, setCancelIdeaId] = useState('')
     useEffect(() => {
         async function fetchData() {
             await dispatch(getIdeas({ type: 'pending' }))
@@ -114,7 +111,8 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
         approveLabelRef.current?.click()
     }
     const onCancelBtn = (ideaID: string) => {
-        
+        setCancelIdeaId(ideaID)
+        cancelRabelRef.current?.click()
     }
     const onChange = (e: any) => {
         setApproveData({ ...approveData, [e.target.name]: e.target.value })
@@ -129,6 +127,13 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
         setLoading(true)
         await dispatch(approveIdea(approveData))
         approveLabelRef.current?.click()
+        setLoading(false)
+    }
+    const onCancelSubmit = async () => {
+        console.log(cancelIdeaId);
+        setLoading(true)
+        await dispatch(rejectIdea({ ideaId: cancelIdeaId }))
+        cancelRabelRef.current?.click()
         setLoading(false)
     }
 
@@ -281,6 +286,25 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
                 </div>
             </div>
             {/* approve modal */}
+
+            {/* cancel modal */}
+            <label htmlFor="cancelModal" className="btn hidden" ref={cancelRabelRef}>open modal</label>
+            <input type="checkbox" id="cancelModal" className="modal-toggle" />
+            <div className="modal">
+                <div className="modal-box">
+                    
+                    <div className='flex items-center pb-2'>
+                        <label className="label w-12/12">
+                            <span className="label-text font-bold text-xl">Are you going to reject this idea?</span>
+                        </label>
+                    </div>
+                    <div className="modal-action">
+                        <label className={`btn ${loading ? 'loading' : ''}`} onClick={() => onCancelSubmit()}>Yes</label>
+                        <label htmlFor="cancelModal" className="btn">Close</label>
+                    </div>
+                </div>
+            </div>
+            {/* cancel modal */}
 
 
         </div>

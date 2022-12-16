@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIdeas, proposeIdea } from '../../redux/idea/actions'
 import parser from 'html-react-parser'
 import { CustomLoader } from '../../components/CustomLoader'
+import { categories } from '../../constants'
 
 interface IProposedIdeaProps {}
 
@@ -14,11 +15,19 @@ export const ProposedIdea:React.FC<IProposedIdeaProps> = () => {
             name: 'Posted Name',
             selector: (row: any) => row.user.name,
             sortable: true,
+            width: "15%"
+        },
+        {
+            name: 'Type', 
+            selector: (row: any) => categories[row.category].label, 
+            sortable: true, 
+            width: "10%"
         },
         {
             name: 'Github',
             selector: (row: any) => row.user.github,
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Title',
@@ -29,6 +38,7 @@ export const ProposedIdea:React.FC<IProposedIdeaProps> = () => {
             name: 'Content',
             selector: (row: any) => parser(row.content.slice(0, 20).concat('...')),
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Action',
@@ -38,7 +48,7 @@ export const ProposedIdea:React.FC<IProposedIdeaProps> = () => {
                     <button className='btn btn-xs' onClick={() => onAssignModalBtn(row._id, row.proposals)}>View Proposal</button>
                 </div>
             ),
-            width: '150px'
+            width: '20%'
         },
     ];
 

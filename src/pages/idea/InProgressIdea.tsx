@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIdeas, pullRequestSubmit, confirmPullRequestSubmit, completeIdea } from '../../redux/idea/actions'
 import parser from 'html-react-parser'
 import { CustomLoader } from '../../components/CustomLoader'
+import { categories } from '../../constants'
 
 interface IInProgressIdeaProps {}
 
@@ -14,11 +15,19 @@ export const InProgressIdea:React.FC<IInProgressIdeaProps> = () => {
             name: 'Assigned user',
             selector: (row: any) => row.assigned_user.name,
             sortable: true,
+            width: "15%"
+        },
+        {
+            name: 'Type', 
+            selector: (row: any) => categories[row.category].label, 
+            sortable: true, 
+            width: "10%"
         },
         {
             name: 'Github',
             selector: (row: any) => row.assigned_user.github,
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Title',
@@ -29,11 +38,13 @@ export const InProgressIdea:React.FC<IInProgressIdeaProps> = () => {
             name: 'Content',
             selector: (row: any) => parser(row.content.slice(0, 20).concat('...')),
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Budget',
             selector: (row: any) => row.budget,
             sortable: true,
+            width: "10%"
         },
         {
             name: 'Action',
@@ -43,6 +54,7 @@ export const InProgressIdea:React.FC<IInProgressIdeaProps> = () => {
                     <button className='btn btn-xs mr-1' onClick={() => onMoreBtn(row)}>More</button>
                 </div>
             ),
+            width: "10%"
         },
     ];
 

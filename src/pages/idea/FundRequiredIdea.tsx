@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBalance, getIdeas, inprogressIdea } from '../../redux/idea/actions'
 import { CustomLoader } from '../../components/CustomLoader'
 import parser from 'html-react-parser'
+import { categories } from '../../constants'
 
 interface IFundRequiredIdeaProps {}
 
@@ -14,31 +15,37 @@ export const FundRequiredIdea:React.FC<IFundRequiredIdeaProps> = () => {
             name: 'Assigned user',
             selector: (row: any) => row.assigned_user.name,
             sortable: true,
+            width: "15%"
         },
-        // {
-        //     name: 'Github',
-        //     selector: (row: any) => row.assigned_user.github,
-        //     sortable: true,
-        // },
+        {
+            name: 'Type', 
+            selector: (row: any) => categories[row.category].label, 
+            sortable: true, 
+            width: "10%"
+        },
         {
             name: 'Title',
             selector: (row: any) => row.title,
             sortable: true,
+            width: "10%"
         },
         {
             name: 'Content',
             selector: (row: any) => parser(row.content.slice(0, 20).concat('...')),
             sortable: true,
+            width: "15%"
         },
         {
             name: 'Budget',
             selector: (row: any) => row.budget,
             sortable: true,
+            width: "10%"
         },
         {
             name: 'Fund amount',
             selector: (row: any) => row.fundAmount,
             sortable: true,
+            width: "10%"
         },
         {
             name: 'Percent',
@@ -47,6 +54,7 @@ export const FundRequiredIdea:React.FC<IFundRequiredIdeaProps> = () => {
                     {((row.fundAmount / row.budget) * 100).toFixed(1)}%
                 </div>
             ),
+            width: "10%"
         },
         {
             name: 'Action',
@@ -57,7 +65,7 @@ export const FundRequiredIdea:React.FC<IFundRequiredIdeaProps> = () => {
                     {role === '1' && (<button className='btn btn-xs mr-1' onClick={() => onInprogressModal(row._id)}>Inprogress</button>)}
                 </div>
             ),
-            width: '150px'
+            width: "20%"
         },
     ];
 

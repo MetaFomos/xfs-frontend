@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIdeas } from '../../redux/idea/actions'
 import parser from 'html-react-parser'
 import { CustomLoader } from '../../components/CustomLoader'
+import { categories } from '../../constants'
 
 interface ICompletedIdeaProps {}
 
@@ -14,6 +15,11 @@ export const CompletedIdea:React.FC<ICompletedIdeaProps> = () => {
             name: 'Assigned user',
             selector: (row: any) => row.assigned_user.name,
             sortable: true,
+        },
+        {
+            name: 'Type', 
+            selector: (row: any) => categories[row.category].label, 
+            sortable: true, 
         },
         {
             name: 'Github',

@@ -6,6 +6,7 @@ import { Dispatch } from "redux";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/actions";
 import { Navigate } from "react-router-dom";
+import logoImg from '../../assets/imgs/logo.png';
 
 interface IHeaderProps {}
 
@@ -89,6 +90,7 @@ export const Header: React.FC<IHeaderProps> = () => {
             </ul>
           </div>
           <Link to="/dashboard" className="btn btn-ghost normal-case text-xl bold">
+            <img src={logoImg} style={{ width: '30px', height: '30px' }} /> &nbsp;
             XFS : XDAG Funding System
           </Link>
         </div>
@@ -141,7 +143,7 @@ export const Header: React.FC<IHeaderProps> = () => {
                 {isAuthenticated ? (
                   <img src="/assets/img/default_avatar.png" />
                 ) : (
-                  <span>Auth</span>
+                  <img src="/assets/img/defualt_avatar1.png" />
                 )}
               </div>
             </label>
