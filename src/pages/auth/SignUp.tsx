@@ -5,10 +5,23 @@ import { register, socialMediaSignUp } from '../../redux/auth/actions'
 import { toast } from 'react-toastify'
 import { Navigate } from 'react-router-dom'
 import { GoogleLogin } from 'react-google-login'
+import { gapi } from 'gapi-script'
+
+const google_client_id = '255335071356-qqfb9le0dio476c0mib60o1lkhfl0dce.apps.googleusercontent.com'
 
 interface ISignUpProps {}
 
 export const SignUp:React.FC<ISignUpProps> = () => {
+    useEffect(() => {
+        const initClient = () => {
+            gapi.client.init({
+                clientId: google_client_id,
+                scope: ''
+            });
+         };
+         gapi.load('client:auth2', initClient);
+    }, []);
+    
     const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
     const dispatch: Dispatch<any> = useDispatch()
     const [formData, setFormData] = useState({
@@ -41,14 +54,14 @@ export const SignUp:React.FC<ISignUpProps> = () => {
         }
     }
     /* GOOGLE SIGNUP */
-    const responseGOAuthSignup = (authResponse: any) => {
+    const responseGOAuthSignup = async (authResponse: any) => {
         console.log('GL authResponse >> ', authResponse)
         if (!authResponse.error) {
             let body = {
                 ...authResponse,
                 register_type: 'GOOGLE'
             }
-            dispatch(socialMediaSignUp(body));
+            await dispatch(socialMediaSignUp(body));
         }
     }
     if (isAuthenticated) {
@@ -92,8 +105,8 @@ export const SignUp:React.FC<ISignUpProps> = () => {
                                     Google
                                 </button> */}
                                 <GoogleLogin className='g-login'
-                                    clientId="255335071356-qqfb9le0dio476c0mib60o1lkhfl0dce.apps.googleusercontent.com"
-                                    buttonText="Google"
+                                    clientId={google_client_id}
+                                    buttonText="Sign up with Google"
                                     onSuccess={responseGOAuthSignup}
                                     onFailure={responseGOAuthSignup}
                                     cookiePolicy={'single_host_origin'}
