@@ -93,6 +93,35 @@ export const register = (formData: any) => async (dispatch: any) => {
   }
 };
 
+export const socialMediaLogin = (formData: any) => async (dispatch: any) => {
+
+  try {
+    const res = await api.post('/auth/sm-login', formData);
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data
+    });
+    dispatch(loadUser());
+  } catch (err: any) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error: any) => {
+        toast.error(error.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      });
+    }
+  }
+};
+
 export const socialMediaSignUp = (formData: any) => async (dispatch: any) => {
   try {
     const res = await api.post('/auth/sm-signup', formData);

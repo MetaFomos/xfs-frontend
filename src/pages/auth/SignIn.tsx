@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dispatch } from "redux";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/auth/actions";
+import { login, socialMediaLogin } from "../../redux/auth/actions";
 import { Navigate } from "react-router-dom";
+import { GoogleLogin } from 'react-google-login'
+import { gapi } from 'gapi-script'
+
+const google_client_id = '255335071356-qqfb9le0dio476c0mib60o1lkhfl0dce.apps.googleusercontent.com'
 
 interface ISignInProps {}
 
 export const SignIn: React.FC<ISignInProps> = () => {
+  useEffect(() => {
+    const initClient = () => {
+        gapi.client.init({
+            clientId: google_client_id,
+            scope: ''
+        });
+     };
+     gapi.load('client:auth2', initClient);
+  }, []);
+
   const isAuthenticated = useSelector(
     (state: any) => state.auth.isAuthenticated
   );
@@ -25,6 +39,12 @@ export const SignIn: React.FC<ISignInProps> = () => {
     await dispatch(login(formData));
     setLoading(false);
   };
+  const responseOAuthLogin = async (authResponse: any) => {
+    if (authResponse.accessToken) {
+        let body = { ...authResponse }
+        await dispatch(socialMediaLogin(body));
+    }
+  }
   if (isAuthenticated) {
     return <Navigate to="/dashboard" />;
   }
@@ -40,7 +60,7 @@ export const SignIn: React.FC<ISignInProps> = () => {
                 </h6>
               </div>
               <div className="btn-wrapper text-center">
-                <button
+                {/* <button
                   className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
                   type="button"
                   style={{ transition: "all .15s ease" }}
@@ -63,7 +83,14 @@ export const SignIn: React.FC<ISignInProps> = () => {
                     src={"/assets/img/google.svg"}
                   />
                   Google
-                </button>
+                </button> */}
+                <GoogleLogin className='g-login'
+                    clientId={google_client_id}
+                    buttonText="Sign in with Google"
+                    onSuccess={responseOAuthLogin}
+                    onFailure={responseOAuthLogin}
+                    cookiePolicy={'single_host_origin'}
+                />
               </div>
               <hr className="mt-6 border-b-1 border-gray-400" />
             </div>
