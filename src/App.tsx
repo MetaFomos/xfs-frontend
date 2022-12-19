@@ -4,7 +4,7 @@ import { ERoute } from './constants'
 import './App.css'
 import setAuthToken from './utils/setAuthToken'
 import store from './redux/store'
-import { loadUser } from './redux/auth/actions'
+import { loadUser, logout } from './redux/auth/actions'
 import { LOGOUT } from './redux/action_types'
 import PrivateRoute from './components/PrivateRoute'
 // pages
@@ -23,6 +23,8 @@ import { FundRequiredIdea } from './pages/idea/FundRequiredIdea'
 import { InProgressIdea } from './pages/idea/InProgressIdea'
 import { CompletedIdea } from './pages/idea/CompletedIdea'
 
+import jwt_decode from "jwt-decode";
+
 interface IAppProps {}
 
 export const App:React.FC<IAppProps> = () => {
@@ -30,6 +32,11 @@ export const App:React.FC<IAppProps> = () => {
 
   // check for token in LS
   if (localStorage.token) {
+    var decoded: any = jwt_decode(localStorage.token);
+    console.log(decoded.exp * 1000, Date.now());
+    if (decoded.exp * 1000 < Date.now()) {
+      store.dispatch(logout());
+    }
     setAuthToken(localStorage.token);
   }
   
