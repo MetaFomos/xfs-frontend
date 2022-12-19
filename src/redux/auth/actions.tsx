@@ -103,6 +103,15 @@ export const socialMediaLogin = (formData: any) => async (dispatch: any) => {
       payload: res.data
     });
     dispatch(loadUser());
+    toast.success('Login success', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } catch (err: any) {
     const errors = err.response.data.errors;
 
@@ -131,6 +140,15 @@ export const socialMediaSignUp = (formData: any) => async (dispatch: any) => {
       payload: res.data
     });
     dispatch(loadUser());
+    toast.success('Register success', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     
   } catch (err: any) {
     const errors = err.response.data.errors;
