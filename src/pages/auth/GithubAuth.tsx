@@ -31,12 +31,16 @@ export const GithubAuth:React.FC<IGithubAuth> = () => {
                 setLoading(true)
                 const res: any = await dispatch(githubAuth_signup(requestData))
                 setLoading(false)
-                !res ? navigate('/signup') : ''
+                if(!res) {
+                    navigate('/signup')
+                }
             } else if (requestData.type == 'signin') {
                 setLoading(true)
                 const res: any = await dispatch(githubAuth_signin(requestData))
                 setLoading(false)
-                !res ? navigate('/signin') : ''
+                if(!res) {
+                    navigate('/signin')
+                }
             }
             
         }
