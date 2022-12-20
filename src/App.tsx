@@ -9,11 +9,12 @@ import { LOGOUT } from './redux/action_types'
 import PrivateRoute from './components/PrivateRoute'
 // pages
 import { NotFound } from './pages/notFound/NotFound'
-import { Dashboard } from './pages/dashboard/Dashboard';
-import { Header } from './components/layout/Header';
-import { Footer } from './components/layout/Footer';
-import { SignIn } from './pages/auth/SignIn';
-import { SignUp } from './pages/auth/SignUp';
+import { Dashboard } from './pages/dashboard/Dashboard'
+import { Header } from './components/layout/Header'
+import { Footer } from './components/layout/Footer'
+import { SignIn } from './pages/auth/SignIn'
+import { SignUp } from './pages/auth/SignUp'
+import { GithubAuth } from './pages/auth/GithubAuth'
 import { Profile } from './pages/auth/Profile'
 import { CreateIdea } from './pages/idea/CreateIdea'
 import { PendingIdea } from './pages/idea/PendingIdea'
@@ -63,6 +64,7 @@ export const App:React.FC<IAppProps> = () => {
           <Route path={ERoute.COMPLETED} element={<PrivateRoute component={CompletedIdea} />}></Route>
           <Route path={ERoute.SIGNIN} element={<SignIn />}></Route>
           <Route path={ERoute.SIGNUP} element={<SignUp />}></Route>
+          <Route path={ERoute.GITHUBAUTH} element={<GithubAuth />}></Route>
           <Route path={ERoute.PROFILE} element={<PrivateRoute component={Profile} />}></Route>
           <Route path='*' element={<NotFound />} />
         </Routes>

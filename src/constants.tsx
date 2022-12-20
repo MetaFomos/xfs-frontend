@@ -3,6 +3,7 @@ export enum ERoute {
     DASHBOARD = '/dashboard',
     SIGNIN = '/signin',
     SIGNUP = '/signup',
+    GITHUBAUTH = '/githubauth',
     CREATEIDEA = '/createidea',
     PENDING = '/pending',
     APPROVED = '/approved',

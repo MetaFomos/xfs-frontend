@@ -5,12 +5,12 @@ export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const LOGOUT = "LOGOUT";
 
-//idea
+// idea
 export const GET_PENDING_IDEAS = "GET_PENDING_IDEAS";
 export const GET_APPROVED_IDEAS = "GET_APPROVED_IDEAS";
 export const GET_FUNDREQUIRED_IDEAS = "GET_FUNDREQUIRED_IDEAS";
 export const GET_INPROGRESS_IDEAS = "GET_INPROGRESS_IDEAS";
 export const GET_COMPLETED_IDEAS = "GET_COMPLETED_IDEAS";
 
-//balance
+// balance
 export const GET_BALANCE = "GET_BALANCE";

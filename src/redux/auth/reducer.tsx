@@ -12,6 +12,7 @@ const INIT_STATE = {
     user: {
         email: ''
     },
+    githubState: null,
     error: null,
 };
 

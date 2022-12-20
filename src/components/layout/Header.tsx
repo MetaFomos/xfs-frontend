@@ -15,7 +15,7 @@ export const Header: React.FC<IHeaderProps> = () => {
   const isAuthenticated = useSelector(
     (state: any) => state.auth.isAuthenticated
   );
-  const { role } = useSelector((state: any) => state.auth.user);
+  const { role, register_type, avatar } = useSelector((state: any) => state.auth.user);
   const onLogout = () => {
     dispatch(logout());
   };
@@ -141,7 +141,10 @@ export const Header: React.FC<IHeaderProps> = () => {
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 {isAuthenticated ? (
-                  <img src="/assets/img/default_avatar.png" />
+                  register_type == 'NORMAL_SIGNUP' 
+                    ? <img src="/assets/img/default_avatar.png" />
+                    : <img src={avatar} />
+                  
                 ) : (
                   <img src="/assets/img/defualt_avatar1.png" />
                 )}

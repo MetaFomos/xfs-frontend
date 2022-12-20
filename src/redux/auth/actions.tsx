@@ -12,11 +12,12 @@ import {
 export const loadUser = () => async (dispatch: any) => {
   try {
     const res = await api.get('/auth');
-
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
-    });
+    if(localStorage.token) {
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      });
+    }
   } catch (err) {
     console.log(err);
     // dispatch({
@@ -150,6 +151,82 @@ export const socialMediaSignUp = (formData: any) => async (dispatch: any) => {
       progress: undefined,
     });
     
+  } catch (err: any) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error: any) => 
+        toast.error(error.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          })  
+      );
+    }
+  }
+}
+
+export const githubAuth_signup = (formData: any) => async (dispatch: any) => {
+  try {
+    const res = await api.post('/auth/githubAuth_signup', formData);
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data
+    });
+    dispatch(loadUser());
+    toast.success('Register success', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    return true;
+  } catch (err: any) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error: any) => 
+        toast.error(error.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          })  
+      );
+    }
+    return false;
+  }
+}
+
+export const githubAuth_signin = (formData: any) => async (dispatch: any) => {
+  try {
+    const res = await api.post('/auth/githubAuth_signin', formData);
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data
+    });
+    dispatch(loadUser());
+    toast.success('Login success', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } catch (err: any) {
     const errors = err.response.data.errors;
 

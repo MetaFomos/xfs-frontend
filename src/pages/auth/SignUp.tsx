@@ -8,11 +8,14 @@ import { GoogleLogin } from 'react-google-login'
 import { gapi } from 'gapi-script'
 
 const google_client_id = '255335071356-qqfb9le0dio476c0mib60o1lkhfl0dce.apps.googleusercontent.com'
+const github_client_id = 'db84e790d9f940d5dd2e'
+const github_redirect_url = 'http://localhost:3000/githubauth'
 
 interface ISignUpProps {}
 
 export const SignUp:React.FC<ISignUpProps> = () => {
     useEffect(() => {
+        // Google Auth
         const initClient = () => {
             gapi.client.init({
                 clientId: google_client_id,
@@ -20,6 +23,7 @@ export const SignUp:React.FC<ISignUpProps> = () => {
             });
          };
          gapi.load('client:auth2', initClient);
+        //  Google Auth end
     }, []);
     
     const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
@@ -55,6 +59,8 @@ export const SignUp:React.FC<ISignUpProps> = () => {
     }
     /* GOOGLE SIGNUP */
     const responseGOAuthSignup = async (authResponse: any) => {
+        
+        alert("called responseOauth login")
         console.log('GL authResponse >> ', authResponse)
         if (!authResponse.error) {
             let body = {
@@ -79,37 +85,28 @@ export const SignUp:React.FC<ISignUpProps> = () => {
                                     Sign up with
                                 </h6>
                             </div>
-                            <div className="btn-wrapper text-center">
-                                {/* <button
-                                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                                    type="button"
-                                    style={{ transition: "all .15s ease" }}
-                                >
-                                    <img
-                                        alt="..."
-                                        className="w-5 mr-1"
-                                        src={"/assets/img/github.svg"}
-                                    />
-                                    Github
-                                </button> */}
-                                {/* <button
-                                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                                    type="button"
-                                    style={{ transition: "all .15s ease" }}
-                                >
-                                    <img
-                                        alt="..."
-                                        className="w-5 mr-1"
-                                        src={"/assets/img/google.svg"}
-                                    />
-                                    Google
-                                </button> */}
+                            <div className="btn-wrapper text-center flex justify-center items-center">
+                                <a href={`https://github.com/login/oauth/authorize?scope=user&client_id=${github_client_id}&redirect_uri=${github_redirect_url}`}>
+                                    <button
+                                        className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
+                                        type="button"
+                                        style={{ transition: "all .15s ease" }} 
+                                        onClick={() => {localStorage.setItem('githubState', 'signup')}}
+                                    >
+                                        <img
+                                            alt="..."
+                                            className="w-5 mr-1"
+                                            src={"/assets/img/github.svg"}
+                                        />
+                                        Github
+                                    </button>
+                                </a>
                                 <GoogleLogin className='g-login'
                                     clientId={google_client_id}
-                                    buttonText="Sign up with Google"
+                                    buttonText="Google"
                                     onSuccess={responseGOAuthSignup}
                                     onFailure={responseGOAuthSignup}
-                                    cookiePolicy={'single_host_origin'}
+                                    // cookiePolicy={'single_host_origin'}
                                 />
                             </div>
                             <hr className="mt-6 border-b-1 border-gray-400" />
