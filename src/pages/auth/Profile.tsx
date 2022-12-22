@@ -1,7 +1,45 @@
-import { useSelector } from "react-redux";
+import React, {useState, useEffect} from 'react'
+import { useDispatch, useSelector } from "react-redux"
+import { Dispatch } from 'redux'
+import { editProfile, changePassword } from '../../redux/auth/actions'
 
 export const Profile = () => {
+  const dispatch: Dispatch<any> = useDispatch();
   const user = useSelector((state: any) => state.auth.user);
+  const [loading, setLoading] = useState(false)
+  const [formData, setFormData] = useState({
+    userName: '',
+    gitName: '',
+    email: '',
+    curPassword: '',
+    resetPassword: ''
+  }) 
+  const [tabIndex, setTabIndex] = useState(1)
+
+  const onChange = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  const onEditProfile = async () => {
+    setLoading(true)
+    await dispatch(editProfile(formData))
+    setLoading(false)
+  }
+
+  const onChangePassword = async () => {
+    setLoading(true)
+    await dispatch(changePassword(formData))
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      userName: user.name,
+      gitName: user.github,
+      email: user.email
+    })
+  }, [user]);
 
   return (
     <>
@@ -87,29 +125,147 @@ export const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-12">
-                <h3 className="text-4xl font-semibold leading-normal mb-2 text-gray-800 mb-2">
-                  {user.name}
-                </h3>
-                <div className="text-lg leading-normal mt-0 mb-2 text-gray-500 font-bold">
-                  <i className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"></i>{" "}
-                  <a href={`mailto:${user.email}`} target="_blank">{user.email}</a>
-                </div>
-                <div className="mb-2 text-gray-700 mt-10">
-                  <i className="fas fa-briefcase mr-2 text-lg text-gray-500"></i>
-                  Joined At - {new Date(user.date).toDateString()}
-                </div>
-                <div className="mb-2 text-gray-700">
-                  <i className="fas fa-university mr-2 text-lg text-gray-500"></i>
-                  Github -{" "}
-                  <a
-                    href={`https://github.com/${user.github}`}
-                    target={"_blank"}
-                  >
-                    {user.github}
-                  </a>
-                </div>
+              <div className="tabs tabs-boxed">
+                <span onClick={() => { setTabIndex(1) }} className={`tab ${tabIndex == 1 && 'tab-active'}`}>Summary</span> 
+                <span onClick={() => { setTabIndex(2) }} className={`tab ${tabIndex == 2 && 'tab-active'}`}>Edit Profile</span> 
+                <span onClick={() => { setTabIndex(3) }} className={`tab ${tabIndex == 3 && 'tab-active'}`}>Change Password</span>
               </div>
+              {tabIndex == 1 && (
+                <div className="text-center mt-12">
+                  <h3 className="text-4xl font-semibold leading-normal mb-2 text-gray-800 mb-2">
+                    {user.name}
+                  </h3>
+                  <div className="text-lg leading-normal mt-0 mb-2 text-gray-500 font-bold">
+                    <i className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"></i>{" "}
+                    <a href={`mailto:${user.email}`} target="_blank">{user.email}</a>
+                  </div>
+                  <div className="mb-2 text-gray-700 mt-10">
+                    <i className="fas fa-briefcase mr-2 text-lg text-gray-500"></i>
+                    Joined At - {new Date(user.date).toDateString()}
+                  </div>
+                  <div className="mb-2 text-gray-700">
+                    <i className="fas fa-university mr-2 text-lg text-gray-500"></i>
+                    Github -{" "}
+                    <a
+                      href={`https://github.com/${user.github}`}
+                      target={"_blank"}
+                    >
+                      {user.github}
+                    </a>
+                  </div>
+                </div>
+              )}
+              {tabIndex == 2 && (
+                <div className='w-full lg:w-4/12 px-4 m-auto mt-10'>
+                  <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
+                    <form>
+                      <div className="relative w-full mb-3">
+                          <label
+                              className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              htmlFor="grid-password"
+                          >
+                              User name
+                          </label>
+                          <input
+                              type="text"
+                              className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                              placeholder="Email"
+                              style={{ transition: "all .15s ease" }}
+                              name="userName" 
+                              value={formData.userName} 
+                              onChange={onChange}
+                          />
+                      </div>
+                      <div className="relative w-full mb-3">
+                          <label
+                              className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              htmlFor="grid-password"
+                          >
+                              Github username
+                          </label>
+                          <input
+                              type="text"
+                              className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                              placeholder="Email"
+                              style={{ transition: "all .15s ease" }}
+                              name="gitName" 
+                              value={formData.gitName} 
+                              onChange={onChange}
+                          />
+                      </div>
+                      <div className="relative w-full mb-3">
+                          <label
+                              className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              htmlFor="grid-password"
+                          >
+                              Email
+                          </label>
+                          <input
+                              type="email"
+                              className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                              placeholder="Email"
+                              style={{ transition: "all .15s ease" }}
+                              name="email" 
+                              value={formData.email} 
+                              onChange={onChange}
+                          />
+                      </div>
+
+                      <div className="text-center mt-6">
+                          <button type="button" className={`btn btn-dark w-full ${loading ? 'loading' : ''}`} onClick={() => onEditProfile()}>Submit</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+              {tabIndex == 3 && (
+                <div className='w-full lg:w-4/12 px-4 m-auto mt-10'>
+                  <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
+                    <form>
+                      <div className="relative w-full mb-3">
+                          <label
+                              className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              htmlFor="grid-password"
+                          >
+                              Current password
+                          </label>
+                          <input
+                              type="password"
+                              className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                              placeholder="Password"
+                              style={{ transition: "all .15s ease" }}
+                              name="curPassword"
+                              value={formData.curPassword}
+                              onChange={onChange}
+                          />
+                      </div>
+                      <div className="relative w-full mb-3">
+                          <label
+                              className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                              htmlFor="grid-password"
+                          >
+                              Reset password
+                          </label>
+                          <input
+                              type="password"
+                              className="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                              placeholder="Password"
+                              style={{ transition: "all .15s ease" }}
+                              name="resetPassword"
+                              value={formData.resetPassword}
+                              onChange={onChange}
+                          />
+                      </div>
+
+                      <div className="text-center mt-6">
+                          <button type="button" className={`btn btn-dark w-full ${loading ? 'loading' : ''}`} onClick={onChangePassword}>Submit</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+              
+
               <div className="mt-10 py-10 border-t border-gray-300 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">

@@ -246,6 +246,64 @@ export const githubAuth_signin = (formData: any) => async (dispatch: any) => {
   }
 }
 
+export const editProfile = (formData: any) => async (dispatch: any) => {
+  try {
+    const res = await api.post('/auth/editProfile', formData);
+    dispatch(loadUser());
+    toast.success('Success', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } catch (err: any) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error: any) => 
+        toast.error(error.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })  
+      );
+    }
+  }
+}
+
+export const changePassword = (formData: any) => async (dispatch: any) => {
+  try {
+    const res = await api.post('/auth/changePassword', formData);
+    dispatch(loadUser());
+    toast.success('Success', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } catch (err: any) {
+      toast.error(err.response.data, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })  
+  }
+}
+
 export const logout = () => ({ type: LOGOUT });
 
   //cotact admin
