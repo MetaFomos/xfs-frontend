@@ -261,7 +261,6 @@ export const editProfile = (formData: any) => async (dispatch: any) => {
     });
   } catch (err: any) {
     const errors = err.response.data.errors;
-
     if (errors) {
       errors.forEach((error: any) => 
         toast.error(error.msg, {

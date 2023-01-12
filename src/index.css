@@ -31,3 +31,25 @@ ol {
   list-style-type: decimal; 
   -webkit-padding-start: 40px;
 }
+
+.g-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-width: 0px;
+  background: white;
+  cursor: pointer;
+  font-weight: bolder;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.64);
+  border-radius: 2px;
+  border: 1px solid transparent;
+  box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px 0px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  width: 45%;
+  height: 40px;
+  margin-top: 24px;
+  margin-bottom: 32px;
+  outline: none;
+}

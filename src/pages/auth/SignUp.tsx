@@ -9,7 +9,7 @@ import { gapi } from 'gapi-script'
 
 const google_client_id = '255335071356-qqfb9le0dio476c0mib60o1lkhfl0dce.apps.googleusercontent.com'
 const github_client_id = 'db84e790d9f940d5dd2e'
-const github_redirect_url = 'http://localhost:3000/githubauth'
+const github_redirect_url = 'https://ox-explorer.com/githubauth'
 
 interface ISignUpProps {}
 
@@ -59,8 +59,6 @@ export const SignUp:React.FC<ISignUpProps> = () => {
     }
     /* GOOGLE SIGNUP */
     const responseGOAuthSignup = async (authResponse: any) => {
-        
-        alert("called responseOauth login")
         console.log('GL authResponse >> ', authResponse)
         if (!authResponse.error) {
             let body = {
@@ -85,17 +83,17 @@ export const SignUp:React.FC<ISignUpProps> = () => {
                                     Sign up with
                                 </h6>
                             </div>
-                            <div className="btn-wrapper text-center flex justify-center items-center">
-                                <a href={`https://github.com/login/oauth/authorize?scope=user&client_id=${github_client_id}&redirect_uri=${github_redirect_url}`}>
+                            <div className="btn-wrapper text-center flex justify-center items-center gap-2">
+                                <a href={`https://github.com/login/oauth/authorize?scope=user&client_id=${github_client_id}&redirect_uri=${github_redirect_url}`} className="g-login pt-1">
                                     <button
-                                        className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
+                                        className="font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 inline-flex items-center font-bold text-[14px]"
                                         type="button"
                                         style={{ transition: "all .15s ease" }} 
                                         onClick={() => {localStorage.setItem('githubState', 'signup')}}
                                     >
                                         <img
                                             alt="..."
-                                            className="w-5 mr-1"
+                                            className="w-6 mr-4"
                                             src={"/assets/img/github.svg"}
                                         />
                                         Github
