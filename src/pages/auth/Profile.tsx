@@ -34,7 +34,7 @@ export const Profile = () => {
     }
     data.append('userName', formData.userName);
     data.append('gitName', formData.gitName);
-    data.append('email', formData.gitName);
+    data.append('email', formData.email);
     await dispatch(editProfile(data))
     setLoading(false)
   }
