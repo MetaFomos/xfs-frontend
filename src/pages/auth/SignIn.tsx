@@ -8,7 +8,7 @@ import { gapi } from 'gapi-script'
 
 const google_client_id = '255335071356-qqfb9le0dio476c0mib60o1lkhfl0dce.apps.googleusercontent.com'
 const github_client_id = 'db84e790d9f940d5dd2e'
-const github_redirect_url = 'http://xfs.xdag.io'
+const github_redirect_url = 'http://xfs.xdag.io/githubauth'
 
 interface ISignInProps {}
 
