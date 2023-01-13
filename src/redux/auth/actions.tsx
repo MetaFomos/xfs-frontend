@@ -248,7 +248,11 @@ export const githubAuth_signin = (formData: any) => async (dispatch: any) => {
 
 export const editProfile = (formData: any) => async (dispatch: any) => {
   try {
-    const res = await api.post('/auth/editProfile', formData);
+    const res = await api.post('/auth/editProfile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     dispatch(loadUser());
     toast.success('Success', {
       position: "top-right",
@@ -300,6 +304,19 @@ export const changePassword = (formData: any) => async (dispatch: any) => {
         draggable: true,
         progress: undefined,
       })  
+  }
+}
+
+export const avatarImgSaveAction = (formData: any) => async (dispatch: any) => {
+  try {
+      var res = await api.post('/api/auth/avatarImgSaveAction', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      });
+      toast.success('The avatar has been saved');
+  } catch (err) {
+      console.log(err);
   }
 }
 

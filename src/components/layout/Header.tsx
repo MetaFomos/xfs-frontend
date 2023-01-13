@@ -142,11 +142,10 @@ export const Header: React.FC<IHeaderProps> = () => {
               <div className="w-10 rounded-full">
                 {isAuthenticated ? (
                   register_type == 'NORMAL_SIGNUP' 
-                    ? <img src="/assets/img/default_avatar.png" />
+                    ? <img src={`assets/img/${avatar}`} />
                     : <img src={avatar} />
-                  
                 ) : (
-                  <img src="/assets/img/defualt_avatar1.png" />
+                  <img src="assets/img/defaultUser.png" />
                 )}
               </div>
             </label>
