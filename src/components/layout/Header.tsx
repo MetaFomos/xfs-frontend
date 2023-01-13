@@ -141,7 +141,7 @@ export const Header: React.FC<IHeaderProps> = () => {
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 {isAuthenticated ? (
-                  register_type == 'NORMAL_SIGNUP' 
+                  avatar?.search('https://') == -1
                     ? <img src={`assets/img/${avatar}`} />
                     : <img src={avatar} />
                 ) : (

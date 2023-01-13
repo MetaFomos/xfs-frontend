@@ -101,14 +101,19 @@ export const Profile = () => {
                 <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                   <div className="relative">
                     {isAuthenticated ? (
-                      user.register_type === 'NORMAL_SIGNUP' 
+                      user?.avatar?.search('https://') == -1  
                         ? <img
                             alt="..."
                             src={`assets/img/${user.avatar}`}
                             className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
                             style={{ maxWidth: "150px" }}
                           />
-                        : <img src={user.avatar} />
+                        : <img 
+                            alt="..."
+                            src={user.avatar}
+                            className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
+                            style={{ maxWidth: "150px" }}
+                          />
                     ) : (
                       <img
                         alt="..."
