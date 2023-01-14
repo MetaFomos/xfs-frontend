@@ -47,7 +47,7 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
             cell: (row: any) => (
                 <div className='flex'>
                     <span className='btn btn-info btn-xs mr-1' onClick={() => onMoreBtn(row)}>More</span>
-                    <span className='btn btn-primary btn-xs mr-1' onClick={() => onApproveBtn(row._id)}>Approve</span>
+                    <span className='btn btn-primary btn-xs mr-1' onClick={() => onApproveBtn(row._id, row.budget, row.milestone)}>Approve</span>
                     <span className='btn btn-error btn-xs' onClick={() => onCancelBtn(row._id)}>Cancel</span>
                 </div>
             ),
@@ -96,16 +96,12 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
         })
         moreLabelRef.current?.click()
     }
-    const onApproveBtn = (ideaID: string) => {
+    const onApproveBtn = (ideaID: string, budget: string, milestone: any) => {
         console.log("idea ID: "+ideaID)
         setApproveData({ 
-            wallet: '',
-            tempIndex: 0,
-            tempMilestoneName: '',
-            tempMilestone: 0,
-            tempDate: '',
-            milestone: [],
-            budget: '',
+            ...approveData,
+            milestone,
+            budget,
             ideaID
         });
         approveLabelRef.current?.click()
@@ -116,12 +112,6 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
     }
     const onChange = (e: any) => {
         setApproveData({ ...approveData, [e.target.name]: e.target.value })
-    }
-    const milestoneAdd = () => {
-        setApproveData({ ...approveData, tempDate: '', tempMilestoneName: '', tempMilestone: 0, tempIndex: approveData.tempIndex+1, milestone: [...approveData.milestone, {index: approveData.tempIndex, title: approveData.tempMilestoneName, date: approveData.tempDate, amount: approveData.tempMilestone}] })
-    }
-    const milestoneRemove = () => {
-        setApproveData({ ...approveData, tempDate: '', tempMilestoneName: '', tempMilestone: 0, tempIndex: approveData.tempIndex-1, milestone: approveData.milestone.filter((item: any) => item.index !== approveData.tempIndex-1) })
     }
     const onApproveSubmit = async () => {
         setLoading(true)
@@ -216,64 +206,16 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
                         <label className="label w-4/12">
                             <span className="label-text font-bold">Budget:</span>
                         </label>
-                        <input 
-                            type="text" 
-                            placeholder="Budget" 
-                            className="input input-bordered w-8/12" 
-                            name="budget" 
-                            value={approveData.budget} 
-                            onChange={onChange}
-                        />
+                        <label className="label w-4/12">{approveData.budget}</label>
                     </div>
-                    <div className='flex items-center pb-2'>
-                        <label className="label w-4/12">
-                            <span className="label-text font-bold">Milestone:</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            placeholder="Milestone name" 
-                            className="input input-bordered w-8/12" 
-                            name="tempMilestoneName" 
-                            value={approveData.tempMilestoneName} 
-                            onChange={onChange}
-                        />
-                    </div>
-                    <div className='flex items-center pb-2'>
-                        <label className="label w-4/12"></label>
-                        <div className='w-8/12'>
-                            <input 
-                                type="number" 
-                                placeholder="Milestone" 
-                                className="input input-bordered w-4/12 mr-2" 
-                                name="tempMilestone" 
-                                value={approveData.tempMilestone} 
-                                onChange={onChange}
-                            />
-                            <input 
-                                type="date" 
-                                placeholder="Date" 
-                                className="input input-bordered w-7/12" 
-                                name="tempDate" 
-                                value={approveData.tempDate} 
-                                onChange={onChange}
-                            />
-                        </div>
-                    </div>
-                    <div className='flex items-center pb-2'>
-                        <label className="label w-4/12"></label>
-                        <div className='w-8/12'>
-                            <button className='btn btn-xs mr-1' onClick={() => milestoneAdd()}>Add</button>
-                            <button className='btn btn-xs' onClick={() => milestoneRemove()}>Remove</button>
-                        </div>
-                    </div>
-                    <div className='flex items-center pb-2'>
-                        <label className="label w-4/12"></label>
-                        <div className='w-8/12'>
+                    <div className='flex items-start pb-2'>
+                        <label className="label w-4/12 font-bold">Milestone:</label>
+                        <div className='w-8/12 mt-2'>
                             {approveData.milestone.map((item: any, index: number) => (
                                 <div key={index}>
-                                    <label className='font-bold flex'>Milestone {item.index+1}:</label> 
+                                    <label className='font-bold flex'>Milestone {index+1}:</label> 
                                     <p><label className='font-medium'>title: </label><label className='mr-3'>{item.title}</label></p>
-                                    <label className='font-medium'>date: </label><label className='mr-3'>{item.date}</label>
+                                    <label className='font-medium'>date: </label><label className='mr-3'>{item?.date?.slice(0, 10)}</label>
                                     <label className='font-medium'>amount: </label> <label>{item.amount}</label>
                                 </div>
                             ))}
