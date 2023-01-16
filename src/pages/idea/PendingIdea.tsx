@@ -114,6 +114,10 @@ export const PendingIdea:React.FC<IPendingIdeaProps> = () => {
         setApproveData({ ...approveData, [e.target.name]: e.target.value })
     }
     const onApproveSubmit = async () => {
+        if (approveData.wallet == '') {
+            toast.warning('Please input the wallet');
+            return;
+        }
         setLoading(true)
         await dispatch(approveIdea(approveData))
         approveLabelRef.current?.click()
